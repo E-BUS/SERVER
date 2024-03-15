@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,13 @@ public class Notice extends BaseTimeEntity {
 	private String content;
 
 	@ManyToOne
-	@JoinColumn(name = "member_id")
-	private Member member;
+	@JoinColumn(name = "writer_id")
+	private Member writer;
+
+	@Builder
+	public Notice(String title, String content, Member writer) {
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+	}
 }
