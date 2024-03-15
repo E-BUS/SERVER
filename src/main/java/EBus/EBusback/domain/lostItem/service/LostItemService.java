@@ -36,6 +36,7 @@ public class LostItemService {
         return new ItemPostResDto(lostItem);
     }
 
+    // 분실물 글 검색
     public List<ItemSearchResDto> getSearchList(String keyword, LocalDate date){
         List<LostItem> searchItems = new ArrayList<>();
         List<ItemSearchResDto> searchResDtoList = new ArrayList<>();
