@@ -4,7 +4,7 @@ import EBus.EBusback.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
@@ -26,7 +26,7 @@ public class LostItem {
     private String image;
 
     @Column(nullable = false)
-    private Date foundDate;
+    private LocalDate foundDate;
 
     @Column(nullable = false, length = 30)
     private String foundTime;
@@ -38,7 +38,7 @@ public class LostItem {
     private String depository;
 
     @Builder
-    public LostItem(Member writer, String title, String image, Date foundDate, String foundTime, String foundLocation, String depository){
+    public LostItem(Member writer, String title, String image, LocalDate foundDate, String foundTime, String foundLocation, String depository){
         this.writer = writer;
         this.title = title;
         this.image = image;
