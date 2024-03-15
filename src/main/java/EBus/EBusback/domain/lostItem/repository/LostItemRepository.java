@@ -13,4 +13,5 @@ public interface LostItemRepository extends JpaRepository<LostItem, Long> {
     List<LostItem> findByTitleContaining(String keyword);
 
     Optional<LostItem> findByItemIdAndWriter(Long itemId, Member writer);
+    List<LostItem> findAllByOrderByFoundDateDesc();
 }
