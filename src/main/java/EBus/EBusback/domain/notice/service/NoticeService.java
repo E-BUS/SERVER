@@ -41,4 +41,13 @@ public class NoticeService {
 		return noticeRepository.findAll().stream()
 			.map(NoticeResponseDto::new).collect(Collectors.toList());
 	}
+
+	public void removeNotice(Long noticeId) {
+		Member member = SecurityUtil.getCurrentUser();
+		Notice notice = noticeRepository.findById(noticeId)
+			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+		if (!member.getRole().equals(Role.ADMIN))
+			throw new RuntimeException("관리자만 삭제할 수 있습니다.");
+		noticeRepository.delete(notice);
+	}
 }
