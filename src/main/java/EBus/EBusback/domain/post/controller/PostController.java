@@ -1,5 +1,7 @@
 package EBus.EBusback.domain.post.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import EBus.EBusback.domain.post.dto.PostCreateResponseDto;
 import EBus.EBusback.domain.post.dto.PostDetailResponseDto;
+import EBus.EBusback.domain.post.dto.PostOutlineResponseDto;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +41,11 @@ public class PostController {
 	@ResponseStatus(HttpStatus.OK)
 	public PostDetailResponseDto findPost(@PathVariable Long postId) {
 		return postService.findPost(postId);
+	}
+
+	@GetMapping("/suggestion")
+	@ResponseStatus(HttpStatus.OK)
+	public List<PostOutlineResponseDto> findSuggestionList() {
+		return postService.findPostList(true);
 	}
 }
