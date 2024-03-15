@@ -27,4 +27,10 @@ public class NoticeService {
 			Notice.builder().title(requestDto.getTitle()).content(requestDto.getContent()).writer(member).build()
 		));
 	}
+
+	public NoticeResponseDto findNotice(Long noticeId) {
+		Notice notice = noticeRepository.findById(noticeId)
+			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+		return new NoticeResponseDto(notice);
+	}
 }
