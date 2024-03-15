@@ -76,4 +76,10 @@ public class LostItemService {
         }
         return searchResDtoList;
     }
+
+    public void deleteLostItem(Member writer, Long itemId) {
+        LostItem lostItem = lostItemRepository.findByItemIdAndWriter(itemId, writer)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 접근입니다."));
+        lostItemRepository.delete(lostItem);
+    }
 }

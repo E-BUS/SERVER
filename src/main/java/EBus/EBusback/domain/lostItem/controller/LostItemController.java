@@ -40,4 +40,16 @@ public class LostItemController {
     public List<ItemSearchResDto> getSearchList(@RequestParam(required = false) String keyword, @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         return lostItemService.getSearchList(keyword, date);
     }
+
+    // 분실물 글 삭제
+    @DeleteMapping("/{item_id}")
+    @ResponseStatus(value=HttpStatus.OK)
+    public String deleteLostItem(@PathVariable("item_id") Long itemId){
+        Member writer = SecurityUtil.getCurrentUser();
+        lostItemService.deleteLostItem(writer, itemId);
+        return "글이 삭제되었습니다.";
+    }
+
+
+
 }
