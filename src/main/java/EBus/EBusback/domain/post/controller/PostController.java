@@ -3,6 +3,7 @@ package EBus.EBusback.domain.post.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,4 +55,12 @@ public class PostController {
 	public List<PostOutlineResponseDto> findAppreciationList() {
 		return postService.findPostList(false);
 	}
+
+	@DeleteMapping("/{postId}")
+	@ResponseStatus(HttpStatus.OK)
+	public String removePost(@PathVariable Long postId) {
+		postService.removePost(postId);
+		return "글이 삭제되었습니다.";
+	}
+
 }
