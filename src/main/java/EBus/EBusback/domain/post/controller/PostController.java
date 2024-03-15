@@ -48,4 +48,10 @@ public class PostController {
 	public List<PostOutlineResponseDto> findSuggestionList() {
 		return postService.findPostList(true);
 	}
+
+	@GetMapping("/appreciation")
+	@ResponseStatus(HttpStatus.OK)
+	public List<PostOutlineResponseDto> findAppreciationList() {
+		return postService.findPostList(false);
+	}
 }
