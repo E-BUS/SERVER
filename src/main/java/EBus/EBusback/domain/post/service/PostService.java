@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.domain.post.dto.PostCreateResponseDto;
+import EBus.EBusback.domain.post.dto.PostDetailResponseDto;
+import EBus.EBusback.domain.post.dto.PostMemberDto;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.domain.post.entity.Post;
 import EBus.EBusback.domain.post.repository.PostRepository;
@@ -29,5 +31,28 @@ public class PostService {
 				.build()
 		);
 		return new PostCreateResponseDto(post);
+	}
+
+	public PostDetailResponseDto findPost(Long postId) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다."));
+		// Heartcount
+		Long heartCount = 0L;
+		// member
+		Member member = SecurityUtil.getCurrentUser();
+		return new PostDetailResponseDto(new PostCreateResponseDto(post), heartCount, findPostMemberInfo(post, member));
+	}
+
+	public PostMemberDto findPostMemberInfo(Post post, Member member) {
+		Boolean hasHeart = false;
+		Boolean isWriter = false;
+
+		if (member != null) {
+			// hasHeart
+
+			// isWriter
+			isWriter = post.getWriter().equals(member);
+		}
+		return new PostMemberDto(hasHeart, isWriter);
 	}
 }
