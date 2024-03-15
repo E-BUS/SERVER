@@ -1,5 +1,8 @@
 package EBus.EBusback.domain.notice.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +35,10 @@ public class NoticeService {
 		Notice notice = noticeRepository.findById(noticeId)
 			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
 		return new NoticeResponseDto(notice);
+	}
+
+	public List<NoticeResponseDto> findNoticeList() {
+		return noticeRepository.findAll().stream()
+			.map(NoticeResponseDto::new).collect(Collectors.toList());
 	}
 }
