@@ -10,7 +10,7 @@ public class SecurityUtil {
 	public static Member getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null || authentication.getPrincipal() == null) {
-			throw new RuntimeException("No authentication information");
+			return null;
 		}
 		return (Member)authentication.getPrincipal();
 	}
