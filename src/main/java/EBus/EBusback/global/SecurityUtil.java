@@ -12,6 +12,6 @@ public class SecurityUtil {
 		if (authentication == null || authentication.getPrincipal() == null) {
 			throw new RuntimeException("No authentication information");
 		}
-		return (Member)authentication.getPrincipal();
+		return (Member) authentication.getPrincipal();
 	}
 }

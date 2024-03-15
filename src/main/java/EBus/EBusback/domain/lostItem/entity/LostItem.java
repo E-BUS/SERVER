@@ -36,4 +36,15 @@ public class LostItem {
 
     @Column(nullable = false, length = 50)
     private String depository;
+
+    @Builder
+    public LostItem(Member writer, String title, String image, Date foundDate, String foundTime, String foundLocation, String depository){
+        this.writer = writer;
+        this.title = title;
+        this.image = image;
+        this.foundDate = foundDate;
+        this.foundTime = foundTime;
+        this.foundLocation = foundLocation;
+        this.depository = depository;
+    }
 }
