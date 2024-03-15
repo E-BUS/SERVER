@@ -17,7 +17,7 @@ public class Member {
 	@Id
 	private Long memberId;
 
-	@Column
+	@Column(nullable = false)
 	@Enumerated(value = EnumType.STRING)
 	private Role role;
 
