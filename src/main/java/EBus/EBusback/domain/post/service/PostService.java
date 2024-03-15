@@ -51,8 +51,7 @@ public class PostService {
 
 		if (member != null) {
 			hasHeart = heartService.existsHeart(member, post);
-			// isWriter
-			isWriter = post.getWriter().equals(member);
+			isWriter = post.getWriter().getMemberId().equals(member.getMemberId());
 		}
 		return new PostMemberDto(hasHeart, isWriter);
 	}
