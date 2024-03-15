@@ -8,6 +8,6 @@ import lombok.Getter;
 public class PostDetailResponseDto {
 
 	private PostCreateResponseDto post;
-	private Long heartCount;
+	private Integer heartCount;
 	private PostMemberDto member;
 }

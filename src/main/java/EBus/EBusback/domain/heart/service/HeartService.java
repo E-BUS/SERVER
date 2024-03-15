@@ -37,4 +37,8 @@ public class HeartService {
 		else
 			return "좋아요가 취소되었습니다.";
 	}
+
+	public Integer findHeartCount(Post post) {
+		return heartRepository.findByPost(post).size();
+	}
 }
