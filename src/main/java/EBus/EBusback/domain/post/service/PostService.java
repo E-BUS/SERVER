@@ -28,7 +28,6 @@ public class PostService {
 				.writer(writer)
 				.build()
 		);
-		return new PostCreateResponseDto(post.getPostId(), post.getTitle(), post.getContent(), post.getIsSuggestion(),
-			post.getCreatedDate());
+		return new PostCreateResponseDto(post);
 	}
 }
