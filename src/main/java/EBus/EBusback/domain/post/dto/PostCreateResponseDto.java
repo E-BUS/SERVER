@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PostResponseDto {
+public class PostCreateResponseDto {
 
 	private Long postId;
 	private String title;

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import EBus.EBusback.domain.post.dto.PostCreateResponseDto;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
-import EBus.EBusback.domain.post.dto.PostResponseDto;
 import EBus.EBusback.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 
@@ -21,13 +21,13 @@ public class PostController {
 
 	@PostMapping("/suggestion")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PostResponseDto createSuggestion(@RequestBody PostRequestDto requestDto) {
+	public PostCreateResponseDto createSuggestion(@RequestBody PostRequestDto requestDto) {
 		return postService.createPost(requestDto, true);
 	}
 
 	@PostMapping("/appreciation")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PostResponseDto createAppreciation(@RequestBody PostRequestDto requestDto) {
+	public PostCreateResponseDto createAppreciation(@RequestBody PostRequestDto requestDto) {
 		return postService.createPost(requestDto, false);
 	}
 }
