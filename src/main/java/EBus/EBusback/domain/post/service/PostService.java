@@ -66,4 +66,13 @@ public class PostService {
 			.map(post -> new PostOutlineResponseDto(post, heartService.findHeartCount(post)))
 			.collect(Collectors.toList());
 	}
+
+	public void removePost(Long postId) {
+		Member member = SecurityUtil.getCurrentUser();
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다."));
+		if (!post.getWriter().getMemberId().equals(member.getMemberId()))
+			throw new RuntimeException("작성자만 삭제할 수 있습니다.");
+		postRepository.delete(post);
+	}
 }
