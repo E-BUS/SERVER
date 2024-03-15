@@ -1,6 +1,8 @@
 package EBus.EBusback.domain.notice.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +25,11 @@ public class NoticeController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public NoticeResponseDto createNotice(@RequestBody PostRequestDto requestDto) {
 		return noticeService.createNotice(requestDto);
+	}
+
+	@GetMapping("/{noticeId}")
+	@ResponseStatus(HttpStatus.OK)
+	public NoticeResponseDto findNotice(@PathVariable Long noticeId) {
+		return noticeService.findNotice(noticeId);
 	}
 }
