@@ -1,5 +1,7 @@
 package EBus.EBusback.domain.notice.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,5 +33,11 @@ public class NoticeController {
 	@ResponseStatus(HttpStatus.OK)
 	public NoticeResponseDto findNotice(@PathVariable Long noticeId) {
 		return noticeService.findNotice(noticeId);
+	}
+
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<NoticeResponseDto> findNoticeList() {
+		return noticeService.findNoticeList();
 	}
 }
