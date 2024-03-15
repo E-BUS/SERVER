@@ -1,5 +1,9 @@
 package EBus.EBusback.domain.post.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import EBus.EBusback.domain.heart.entity.Heart;
 import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -10,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +43,9 @@ public class Post extends BaseTimeEntity {
 
 	@Column(nullable = false)
 	private Boolean isSuggestion;
+
+	@OneToMany(mappedBy = "post", orphanRemoval = true)
+	private List<Heart> heartList = new ArrayList<>();
 
 	@Builder
 	public Post(Member writer, String title, String content, Boolean isSuggestion) {
