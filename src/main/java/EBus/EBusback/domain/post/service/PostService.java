@@ -45,7 +45,7 @@ public class PostService {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다."));
 		Member member = SecurityUtil.getCurrentUser();
-		return new PostDetailResponseDto(new PostCreateResponseDto(post), heartService.findHeartCount(post),
+		return new PostDetailResponseDto(new PostCreateResponseDto(post), post.getHeartList().size(),
 			findPostMemberInfo(post, member));
 	}
 
@@ -63,7 +63,7 @@ public class PostService {
 	public List<PostOutlineResponseDto> findPostList(Boolean isSuggestion) {
 		List<Post> postList = postRepository.findAllByIsSuggestion(isSuggestion);
 		return postList.stream()
-			.map(post -> new PostOutlineResponseDto(post, heartService.findHeartCount(post)))
+			.map(post -> new PostOutlineResponseDto(post, post.getHeartList().size()))
 			.collect(Collectors.toList());
 	}
 

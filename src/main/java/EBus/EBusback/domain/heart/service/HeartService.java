@@ -38,10 +38,6 @@ public class HeartService {
 			return "좋아요가 취소되었습니다.";
 	}
 
-	public Integer findHeartCount(Post post) {
-		return heartRepository.findByPost(post).size();
-	}
-
 	public Boolean existsHeart(Member member, Post post) {
 		return heartRepository.existsByMemberAndPostAndIsValid(member, post, true);
 	}
