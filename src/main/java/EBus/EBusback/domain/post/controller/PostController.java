@@ -24,4 +24,10 @@ public class PostController {
 	public PostResponseDto createSuggestion(@RequestBody PostRequestDto requestDto) {
 		return postService.createPost(requestDto, true);
 	}
+
+	@PostMapping("/appreciation")
+	@ResponseStatus(HttpStatus.CREATED)
+	public PostResponseDto createAppreciation(@RequestBody PostRequestDto requestDto) {
+		return postService.createPost(requestDto, false);
+	}
 }
