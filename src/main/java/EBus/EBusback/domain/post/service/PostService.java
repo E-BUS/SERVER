@@ -13,7 +13,9 @@ import EBus.EBusback.domain.post.entity.Post;
 import EBus.EBusback.domain.post.repository.PostRepository;
 import EBus.EBusback.global.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -48,8 +50,7 @@ public class PostService {
 		Boolean isWriter = false;
 
 		if (member != null) {
-			// hasHeart
-
+			hasHeart = heartService.existsHeart(member, post);
 			// isWriter
 			isWriter = post.getWriter().equals(member);
 		}
