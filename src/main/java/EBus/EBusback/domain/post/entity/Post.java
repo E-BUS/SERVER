@@ -2,7 +2,6 @@ package EBus.EBusback.domain.post.entity;
 
 import EBus.EBusback.domain.member.entity.Member;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import lombok.*;
 
 @Entity
