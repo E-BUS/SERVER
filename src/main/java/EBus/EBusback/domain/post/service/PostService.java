@@ -1,5 +1,8 @@
 package EBus.EBusback.domain.post.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +11,7 @@ import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.domain.post.dto.PostCreateResponseDto;
 import EBus.EBusback.domain.post.dto.PostDetailResponseDto;
 import EBus.EBusback.domain.post.dto.PostMemberDto;
+import EBus.EBusback.domain.post.dto.PostOutlineResponseDto;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.domain.post.entity.Post;
 import EBus.EBusback.domain.post.repository.PostRepository;
@@ -54,5 +58,12 @@ public class PostService {
 			isWriter = post.getWriter().getMemberId().equals(member.getMemberId());
 		}
 		return new PostMemberDto(hasHeart, isWriter);
+	}
+
+	public List<PostOutlineResponseDto> findPostList(Boolean isSuggestion) {
+		List<Post> postList = postRepository.findAllByIsSuggestion(isSuggestion);
+		return postList.stream()
+			.map(post -> new PostOutlineResponseDto(post, heartService.findHeartCount(post)))
+			.collect(Collectors.toList());
 	}
 }
