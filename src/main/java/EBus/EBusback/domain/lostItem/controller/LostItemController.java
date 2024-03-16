@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +34,7 @@ import EBus.EBusback.global.service.S3Uploader;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "분실물", description = "분실물 글 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/items")
@@ -37,6 +42,11 @@ public class LostItemController {
 	private final LostItemService lostItemService;
 	private final S3Uploader s3Uploader;
 
+	@Operation(summary = "분실물 글 등록")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "등록 성공"),
+			@ApiResponse(responseCode = "401", description = "로그인 필요")
+	})
 	// 분실물 글 등록
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -49,6 +59,8 @@ public class LostItemController {
 		return lostItemService.createLostItemPost(writer, imageUrl, itemPostReqDto);
 	}
 
+	@Operation(summary = "분실물 글 검색")
+	@ApiResponse(responseCode = "200", description = "조회 성공")
 	// 분실물 글 검색
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
@@ -57,6 +69,13 @@ public class LostItemController {
 		return lostItemService.getSearchList(keyword, date);
 	}
 
+	@Operation(summary = "분실물 글 삭제")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "삭제 성공"),
+			@ApiResponse(responseCode = "401", description = "로그인 필요"),
+			@ApiResponse(responseCode = "403", description = "작성자 아님"),
+			@ApiResponse(responseCode = "404", description = "해당 id를 갖는 글 없음")
+	})
 	// 분실물 글 삭제
 	@DeleteMapping("/{item_id}")
 	@ResponseStatus(value = HttpStatus.OK)
