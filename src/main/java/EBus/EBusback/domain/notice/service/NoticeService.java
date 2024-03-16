@@ -37,7 +37,8 @@ public class NoticeService {
 
 	public NoticeResponseDto findNotice(Long noticeId) {
 		Notice notice = noticeRepository.findById(noticeId)
-			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+			.orElseThrow(() -> new ResponseStatusException(
+				ErrorCode.NO_NOTICE_EXIST.getStatus(), ErrorCode.NO_NOTICE_EXIST.getMessage()));
 		return new NoticeResponseDto(notice);
 	}
 
@@ -51,7 +52,8 @@ public class NoticeService {
 		if (member == null)
 			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Notice notice = noticeRepository.findById(noticeId)
-			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
+			.orElseThrow(() -> new ResponseStatusException(
+				ErrorCode.NO_NOTICE_EXIST.getStatus(), ErrorCode.NO_NOTICE_EXIST.getMessage()));
 		if (!member.getRole().equals(Role.ADMIN))
 			throw new ResponseStatusException(ErrorCode.NO_ADMIN.getStatus(), ErrorCode.NO_ADMIN.getMessage());
 		noticeRepository.delete(notice);

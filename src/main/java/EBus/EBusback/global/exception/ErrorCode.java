@@ -19,7 +19,10 @@ public enum ErrorCode {
 
 	// Member
 	NO_ADMIN(HttpStatus.FORBIDDEN, "관리자만 접근 가능합니다."),
-	NO_WRITER(HttpStatus.FORBIDDEN, "작성자만 접근 가능합니다.");
+	NO_WRITER(HttpStatus.FORBIDDEN, "작성자만 접근 가능합니다."),
+
+	// Notice
+	NO_NOTICE_EXIST(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다.");
 
 	private final HttpStatus status;
 	private final String message;
