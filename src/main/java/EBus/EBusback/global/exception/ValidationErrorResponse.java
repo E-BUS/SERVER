@@ -4,6 +4,7 @@ import java.util.Date;
 
 import lombok.Getter;
 
+// validation 예외 처리를 위한 response
 @Getter
 public class ValidationErrorResponse {
 

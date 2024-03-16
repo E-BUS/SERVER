@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import EBus.EBusback.domain.member.dto.LoginRequestDto;
 import EBus.EBusback.domain.member.dto.LoginResponseDto;
 import EBus.EBusback.domain.member.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "인증", description = "인증 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -19,6 +23,8 @@ public class AuthController {
 
 	private final AuthService authService;
 
+	@Operation(summary = "로그인")
+	@ApiResponse(responseCode = "201", description = "로그인 성공")
 	@PostMapping("/login")
 	@ResponseStatus(HttpStatus.CREATED)
 	public LoginResponseDto login(@RequestBody LoginRequestDto requestDto) {

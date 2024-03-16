@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+// validation 예외 처리를 위한 handler
 @RestControllerAdvice
 public class ValidationExceptionHandler {
 

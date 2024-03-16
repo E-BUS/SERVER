@@ -21,6 +21,7 @@ public class HeartService {
 	private final HeartRepository heartRepository;
 	private final PostRepository postRepository;
 
+	// postId를 id로 가지는 게시글에 좋아요를 등록하거나 취소
 	public String createOrRemoveHeart(Long postId) {
 		Member member = SecurityUtil.getCurrentUser();
 		if (member == null)
@@ -30,9 +31,15 @@ public class HeartService {
 			.orElseThrow(() -> new ResponseStatusException(
 				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));
 
+		// 사용자가 이 글에 누른 좋아요가 있는지 조회
+		// 있으면 해당 엔티티 가져오고
+		// 없으면 좋아요 생성
 		Heart heart = heartRepository.findByMemberAndPost(member, post)
 			.orElseGet(() -> heartRepository.save(Heart.builder().member(member).post(post).build()));
 
+		// 좋아요 여부를 반대로 변경: true -> false / false -> true
+		// 좋아요를 새로 생성한 경우: 초기 좋아요 여부가 true이면 updateHeart() 메서드 호출 후 좋아요 여부가 false가 되므로
+		// 						초기 좋아요 여부를 false로 설정
 		heart.updateHeart();
 
 		if (heart.getIsValid())
