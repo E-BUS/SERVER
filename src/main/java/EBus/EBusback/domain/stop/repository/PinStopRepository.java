@@ -6,9 +6,11 @@ import EBus.EBusback.domain.stop.entity.PinStop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PinStopRepository extends JpaRepository<PinStop, Long> {
     Optional<PinStop> findByMemberAndStop(Member member, BusStop stop);
+    List<PinStop> findAllByMember(Member member);
 }
