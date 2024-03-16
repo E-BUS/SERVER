@@ -19,7 +19,7 @@ public class MainPageController {
     private final MainPageService mainPageService;
 
     @Operation(summary = "메인 페이지 글 목록 조회")
-    @ApiResponse(responseCode = "200", description = "글 목록 조회")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
     // 메인 페이지 글 목록 조회
     @GetMapping("/main")
     @ResponseStatus(HttpStatus.OK)
