@@ -1,17 +1,36 @@
 package EBus.EBusback.domain.lostItem.dto;
 
+import java.time.LocalDate;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemPostReqDto {
-    private String title;
-    private LocalDate foundDate;
-    private String foundTime;
-    private String foundLocation;
-    private String depository;
+
+	@NotEmpty
+	@NotBlank
+	@Size(min = 1, max = 30)
+	private String title;
+
+	@NotNull
+	private LocalDate foundDate;
+
+	@NotNull
+	@Size(max = 30)
+	private String foundTime;
+
+	@NotNull
+	@Size(max = 50)
+	private String foundLocation;
+
+	@NotNull
+	@Size(max = 50)
+	private String depository;
 }

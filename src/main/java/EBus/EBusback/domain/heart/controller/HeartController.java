@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import EBus.EBusback.domain.heart.dto.HeartRequestDto;
 import EBus.EBusback.domain.heart.service.HeartService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -17,7 +18,7 @@ public class HeartController {
 	private final HeartService heartService;
 
 	@PostMapping
-	public String clickHeart(@RequestBody HeartRequestDto requestDto) {
+	public String clickHeart(@RequestBody @Valid HeartRequestDto requestDto) {
 		return heartService.createOrRemoveHeart(requestDto.getPostId());
 	}
 }

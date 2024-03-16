@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import EBus.EBusback.domain.heart.service.HeartService;
 import EBus.EBusback.domain.member.entity.Member;
@@ -16,6 +17,7 @@ import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.domain.post.entity.Post;
 import EBus.EBusback.domain.post.repository.PostRepository;
 import EBus.EBusback.global.SecurityUtil;
+import EBus.EBusback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +32,8 @@ public class PostService {
 
 	public PostCreateResponseDto createPost(PostRequestDto requestDto, Boolean isSuggestion) {
 		Member writer = SecurityUtil.getCurrentUser();
+		if (writer == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Post post = postRepository.save(
 			Post.builder()
 				.title(requestDto.getTitle())
@@ -43,7 +47,8 @@ public class PostService {
 
 	public PostDetailResponseDto findPost(Long postId) {
 		Post post = postRepository.findById(postId)
-			.orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다."));
+			.orElseThrow(() -> new ResponseStatusException(
+				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));
 		Member member = SecurityUtil.getCurrentUser();
 		return new PostDetailResponseDto(new PostCreateResponseDto(post), post.getHeartList().size(),
 			findPostMemberInfo(post, member));
@@ -69,10 +74,14 @@ public class PostService {
 
 	public void removePost(Long postId) {
 		Member member = SecurityUtil.getCurrentUser();
+		if (member == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Post post = postRepository.findById(postId)
-			.orElseThrow(() -> new IllegalArgumentException("글을 찾을 수 없습니다."));
+			.orElseThrow(() -> new ResponseStatusException(
+				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));
+
 		if (!post.getWriter().getMemberId().equals(member.getMemberId()))
-			throw new RuntimeException("작성자만 삭제할 수 있습니다.");
+			throw new ResponseStatusException(ErrorCode.NO_WRITER.getStatus(), ErrorCode.NO_WRITER.getMessage());
 		postRepository.delete(post);
 	}
 }
