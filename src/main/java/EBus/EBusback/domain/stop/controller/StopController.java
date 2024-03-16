@@ -8,6 +8,7 @@ import EBus.EBusback.domain.stop.dto.WholeTimetableResDto;
 import EBus.EBusback.domain.stop.service.StopService;
 import EBus.EBusback.global.SecurityUtil;
 import EBus.EBusback.global.exception.ErrorCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class StopController {
 
     // 정류장 핀 등록/취소
     @PostMapping("/pin")
-    public StopPinResDto createOrRemovePin(@RequestBody StopPinReqDto stopPinReqDto){
+    public StopPinResDto createOrRemovePin(@RequestBody @Valid StopPinReqDto stopPinReqDto){
         Member member = SecurityUtil.getCurrentUser();
         if (member == null)
             throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
