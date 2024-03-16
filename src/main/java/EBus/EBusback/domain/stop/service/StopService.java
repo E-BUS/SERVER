@@ -12,7 +12,6 @@ import EBus.EBusback.domain.table.repository.TimeTableDayRepository;
 import EBus.EBusback.domain.table.repository.TimeTableNightRepository;
 import EBus.EBusback.global.SecurityUtil;
 import EBus.EBusback.global.exception.ErrorCode;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -63,14 +62,14 @@ public class StopService {
     // 핀한 정류장 리스트 조회
     public StopPinResDto getPinnedStopList(Member member) {
         List<Integer> stopId = new ArrayList<>();
-        for (int i=0; i<8; i++){
-            BusStop stop = busStopRepository.findByStopId(i+1);
-            PinStop pinStop = pinStopRepository.findByMemberAndStop(member, stop)
-                    .orElseThrow(() -> new EntityNotFoundException("해당 핀 정보가 존재하지 않습니다."));
-            if(pinStop.getIsValid()){
-                stopId.add(i+1);
+        List<PinStop> pinStops = pinStopRepository.findAllByMember(member);
+
+        for (PinStop pinstop : pinStops){
+            if (pinstop.getIsValid()) {
+                stopId.add(pinstop.getStop().getStopId());
             }
         }
+
         return StopPinResDto.builder()
                 .stopId(stopId)
                 .build();
