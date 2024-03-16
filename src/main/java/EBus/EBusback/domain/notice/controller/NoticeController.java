@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import EBus.EBusback.domain.notice.dto.NoticeResponseDto;
 import EBus.EBusback.domain.notice.service.NoticeService;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,7 +27,7 @@ public class NoticeController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public NoticeResponseDto createNotice(@RequestBody PostRequestDto requestDto) {
+	public NoticeResponseDto createNotice(@RequestBody @Valid PostRequestDto requestDto) {
 		return noticeService.createNotice(requestDto);
 	}
 

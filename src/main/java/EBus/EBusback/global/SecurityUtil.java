@@ -9,7 +9,8 @@ public class SecurityUtil {
 
 	public static Member getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || authentication.getPrincipal() == null) {
+		if (authentication == null || authentication.getPrincipal() == null
+			|| authentication.getName().equals("anonymousUser")) {
 			return null;
 		}
 		return (Member)authentication.getPrincipal();

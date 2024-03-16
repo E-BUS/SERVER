@@ -17,6 +17,7 @@ import EBus.EBusback.domain.post.dto.PostDetailResponseDto;
 import EBus.EBusback.domain.post.dto.PostOutlineResponseDto;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.domain.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,13 +29,13 @@ public class PostController {
 
 	@PostMapping("/suggestion")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PostCreateResponseDto createSuggestion(@RequestBody PostRequestDto requestDto) {
+	public PostCreateResponseDto createSuggestion(@RequestBody @Valid PostRequestDto requestDto) {
 		return postService.createPost(requestDto, true);
 	}
 
 	@PostMapping("/appreciation")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PostCreateResponseDto createAppreciation(@RequestBody PostRequestDto requestDto) {
+	public PostCreateResponseDto createAppreciation(@RequestBody @Valid PostRequestDto requestDto) {
 		return postService.createPost(requestDto, false);
 	}
 
