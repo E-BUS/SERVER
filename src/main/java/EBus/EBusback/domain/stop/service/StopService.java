@@ -81,13 +81,27 @@ public class StopService {
         StopTimetable stopTimetable = getStopTimetable(stopId);
         List<TimeResponseDto> ups = stopTimetable.getUps();
         List<TimeResponseDto> downs = stopTimetable.getDowns();
-        int i = stopTimetable.getI();
+        int m = stopTimetable.getM();
+        int n = stopTimetable.getN();
 
+        // 상하행 리스트에서 index 값으로 dto 조회하기 전에 index 값이 리스트.size() 이하인지 확인부터 해야 됨.
         // 해당 정류장에서 현재 시각과 출발 시간이 가장 가까운 시간
-        TimeResponseDto closestUp = new TimeResponseDto();
-        TimeResponseDto closestDown = new TimeResponseDto();
-        closestUp = ups.get(i);
-        closestDown = downs.get(i);
+        TimeResponseDto closestUp;
+        TimeResponseDto closestDown;
+
+        if (ups.size()>m){
+            closestUp = ups.get(m);
+        }
+        else{
+            closestUp = null;
+        }
+
+        if (downs.size()>n){
+            closestDown = downs.get(n);
+        }
+        else{
+            closestDown = null;
+        }
 
         return new WholeTimetableResDto(ups, downs, closestUp, closestDown);
     }
@@ -100,31 +114,45 @@ public class StopService {
         StopTimetable stopTimetable = getStopTimetable(stopId);
         List<TimeResponseDto> ups = stopTimetable.getUps();
         List<TimeResponseDto> downs = stopTimetable.getDowns();
-        int i = stopTimetable.getI();
+        int m = stopTimetable.getM();
+        int n = stopTimetable.getN();
 
         List<TimeResponseDto> closeUps = new ArrayList<>();
         List<TimeResponseDto> closeDowns = new ArrayList<>();
-        for (int j=i; j<i+3; j++){
-            closeUps.add(ups.get(j));
-            closeDowns.add(downs.get(j));
+
+        // m번째 index, m+1, m+2 가 필요한 거.
+        for (int p=m; p<m+3; p++){
+            if (ups.size()>p){
+                closeUps.add(ups.get(p));
+            }
+        }
+
+        for (int q=n; q<n+3; q++){
+            if (downs.size()>q){
+                closeDowns.add(downs.get(q));
+            }
         }
         return new PinnedStopTimeResDto(closeUps, closeDowns);
     }
 
+    // 시간표 데이터 전달 dto
     @Getter
     public static class StopTimetable {
         private List<TimeResponseDto> ups;
         private List<TimeResponseDto> downs;
-        private int i;
+        private int m;
+        private int n;
 
         @Builder
-        public StopTimetable (List<TimeResponseDto> ups, List<TimeResponseDto> downs, int i){
+        public StopTimetable (List<TimeResponseDto> ups, List<TimeResponseDto> downs, int m, int n){
             this.ups = ups;
             this.downs = downs;
-            this.i = i;
+            this.m = m;
+            this.n = n;
         }
     }
 
+    // stopId에 따른 시간표 데이터 조회
     public StopTimetable getStopTimetable(Integer stopId){
         // 비어 있는 상행 리스트
         List<TimeResponseDto> ups = new ArrayList<>();
@@ -136,7 +164,7 @@ public class StopService {
         DayOfWeek dayOfWeek = today.getDayOfWeek();
         int dayOfWeekNumber = dayOfWeek.getValue();
 
-        // 주간 상행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
+                // 주간 상행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
         List<TimeTableDay> dayUps = timeTableDayRepository.findByIsUpboundOrderByDepartureTimeAsc(Boolean.TRUE);
 
         // 주간 하행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
@@ -369,12 +397,23 @@ public class StopService {
         // 현재 시간
         LocalTime now = LocalTime.now();
 
-        int i = 0;
+        int m = 0;
+        int n = 0;
 
-        // i는 현재 시간 이후에 출발하는 첫 시간표의 index
-        while (ups.get(i).getTime().isBefore(now) && i < ups.size()) {
-            i++;
+        // m은 현재 시간 이후에 출발하는 첫 시간표의 index
+        if (!(ups.isEmpty())){
+            while (ups.get(m).getTime().isBefore(now) && m < ups.size()) {
+                m++;
+            }
         }
-        return new StopTimetable(ups, downs, i);
+
+        // n은 현재 시간 이후에 출발하는 첫 시간표의 index
+        if (!(downs.isEmpty())){
+            while (downs.get(n).getTime().isBefore(now) && n < downs.size()) {
+                n++;
+            }
+        }
+
+        return new StopTimetable(ups, downs, m, n);
     }
 }
