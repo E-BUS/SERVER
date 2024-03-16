@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import EBus.EBusback.domain.member.entity.Member;
+import EBus.EBusback.domain.member.entity.Role;
 import EBus.EBusback.domain.member.repository.MemberRepository;
 import EBus.EBusback.global.SecurityUtil;
 import EBus.EBusback.global.exception.ErrorCode;
@@ -23,5 +24,13 @@ public class MemberService {
 			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 
 		member.changeRole();
+	}
+
+	public Role getRole() {
+		Member member = SecurityUtil.getCurrentUser();
+		if (member == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
+
+		return member.getRole();
 	}
 }

@@ -1,11 +1,13 @@
 package EBus.EBusback.domain.member.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import EBus.EBusback.domain.member.entity.Role;
 import EBus.EBusback.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,5 +33,16 @@ public class MemberController {
 	public String changeToAdmin() {
 		memberService.changeToAdmin();
 		return "관리자로 변경되었습니다.";
+	}
+
+	@Operation(summary = "사용자 role 조회")
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "200", description = "조회 성공"),
+		@ApiResponse(responseCode = "401", description = "로그인 필요")
+	})
+	@GetMapping("/role")
+	@ResponseStatus(HttpStatus.OK)
+	public Role getRole() {
+		return memberService.getRole();
 	}
 }
