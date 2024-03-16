@@ -51,4 +51,8 @@ public class HeartService {
 	public Boolean existsHeart(Member member, Post post) {
 		return heartRepository.existsByMemberAndPostAndIsValid(member, post, true);
 	}
+
+	public Integer getHeartCount(Post post) {
+		return heartRepository.findAllByPostAndIsValid(post, true).size();
+	}
 }

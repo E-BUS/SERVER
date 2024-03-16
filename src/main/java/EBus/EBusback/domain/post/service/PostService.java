@@ -50,7 +50,7 @@ public class PostService {
 			.orElseThrow(() -> new ResponseStatusException(
 				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));
 		Member member = SecurityUtil.getCurrentUser();
-		return new PostDetailResponseDto(new PostCreateResponseDto(post), post.getHeartList().size(),
+		return new PostDetailResponseDto(new PostCreateResponseDto(post), heartService.getHeartCount(post),
 			findPostMemberInfo(post, member));
 	}
 
@@ -68,7 +68,7 @@ public class PostService {
 	public List<PostOutlineResponseDto> findPostList(Boolean isSuggestion) {
 		List<Post> postList = postRepository.findAllByIsSuggestion(isSuggestion);
 		return postList.stream()
-			.map(post -> new PostOutlineResponseDto(post, post.getHeartList().size()))
+			.map(post -> new PostOutlineResponseDto(post, heartService.getHeartCount(post)))
 			.collect(Collectors.toList());
 	}
 
