@@ -10,6 +10,7 @@ import EBus.EBusback.global.SecurityUtil;
 import EBus.EBusback.global.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,11 @@ public class StopController {
     }
 
     @Operation(summary = "핀한 정류장 리스트 조회")
-    @ApiResponse(responseCode = "200", description = "리스트 조회")
-    @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "리스트 조회"),
+            @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+    })
+
     // 핀한 정류장 리스트 조회
     @GetMapping("/pin")
     public StopPinResDto getPinnedStopList(){
@@ -58,8 +62,10 @@ public class StopController {
     }
 
     @Operation(summary = "핀한 정류장 일부 시간표 조회")
-    @ApiResponse(responseCode = "200", description = "일부 시간표 조회")
-    @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "일부 시간표 조회"),
+            @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+    })
     // 핀한 정류장 일부 시간표 조회
     @GetMapping("/{stop_id}")
     @ResponseStatus(HttpStatus.OK)
