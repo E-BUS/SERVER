@@ -26,8 +26,8 @@ public class StopController {
     private final StopService stopService;
 
     @Operation(summary = "정류장 핀 등록 및 취소")
-    @ApiResponse(responseCode = "200", description = "핀 여부 업데이트")
-    @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+    @ApiResponse(responseCode = "200", description = "핀 여부 반영 성공")
+    @ApiResponse(responseCode = "401", description = "로그인 필요")
     // 정류장 핀 등록/취소
     @PostMapping("/pin")
     public StopPinResDto createOrRemovePin(@RequestBody @Valid StopPinReqDto stopPinReqDto){
@@ -39,10 +39,9 @@ public class StopController {
 
     @Operation(summary = "핀한 정류장 리스트 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "리스트 조회"),
-            @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "로그인 필요")
     })
-
     // 핀한 정류장 리스트 조회
     @GetMapping("/pin")
     public StopPinResDto getPinnedStopList(){
@@ -53,7 +52,7 @@ public class StopController {
     }
 
     @Operation(summary = "특정 정류장의 전체 시간표 조회")
-    @ApiResponse(responseCode = "200", description = "전체 시간표 조회")
+    @ApiResponse(responseCode = "200", description = "조회 성공")
     // 특정 정류장 전체 시간표 조회
     @GetMapping("/{stop_id}/all")
     @ResponseStatus(HttpStatus.OK)
@@ -63,8 +62,8 @@ public class StopController {
 
     @Operation(summary = "핀한 정류장 일부 시간표 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "일부 시간표 조회"),
-            @ApiResponse(responseCode = "401", description = "로그인 하지 않은 유저")
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "401", description = "로그인 필요")
     })
     // 핀한 정류장 일부 시간표 조회
     @GetMapping("/{stop_id}")
