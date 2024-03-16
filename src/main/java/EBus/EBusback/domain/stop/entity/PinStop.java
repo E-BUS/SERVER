@@ -38,4 +38,8 @@ public class PinStop {
 		this.stop = stop;
 		this.isValid = true;
 	}
+
+	public void updatePinStop(Boolean isValid) {
+		this.isValid = isValid;
+	}
 }
