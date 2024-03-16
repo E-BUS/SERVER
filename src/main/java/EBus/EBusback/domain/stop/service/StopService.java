@@ -156,6 +156,7 @@ public class StopService {
             // 주간 상행
             for (TimeTableDay dayUp : dayUps) {
                 int plus1 = 0;
+                // 주간 연협 상행 (stopId: 1,2,3,4,5)
                 if (Objects.equals(dayUp.getRoute().toString(), "RCB")) {
                     if (stopId == 1) {
                         plus1 = 0;
@@ -172,12 +173,17 @@ public class StopService {
                     else if (stopId == 5) {
                         plus1 = 7;
                     }
-                    TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route(dayUp.getRoute().toString())
-                            .time(dayUp.getDepartureTime().plusMinutes(plus1))
-                            .build();
-                    ups.add(timeDto);
+
+                    if(stopId==1|stopId==2|stopId==3|stopId==4|stopId==5){
+                        TimeResponseDto timeDto = TimeResponseDto.builder()
+                                .route(dayUp.getRoute().toString())
+                                .time(dayUp.getDepartureTime().plusMinutes(plus1))
+                                .build();
+                        ups.add(timeDto);
+                    }
                 }
+
+                // 주간 한우리 상행  (stopId: 1,2,3,6)
                 else if (Objects.equals(dayUp.getRoute().toString(), "HANWOORI")) {
                     if (stopId == 1) {
                         plus1 = 0;
@@ -192,17 +198,19 @@ public class StopService {
                         plus1 = 7;
                     }
 
-                    TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route(dayUp.getRoute().toString())
-                            .time(dayUp.getDepartureTime().plusMinutes(plus1))
-                            .build();
-                    ups.add(timeDto);
+                    if(stopId==1|stopId==2|stopId==3|stopId==6){
+                        TimeResponseDto timeDto = TimeResponseDto.builder()
+                                .route(dayUp.getRoute().toString())
+                                .time(dayUp.getDepartureTime().plusMinutes(plus1))
+                                .build();
+                        ups.add(timeDto);
+                    }
                 }
             }
 
-            // 주간 하행
             for (TimeTableDay dayDown : dayDowns) {
                 int plus2 = 0;
+                // 주간 연협 하행 (stopId: 1,2,3,4,5)
                 if (Objects.equals(dayDown.getRoute().toString(), "RCB")) {
                     if (stopId == 1) {
                         plus2 = 7;
@@ -219,12 +227,17 @@ public class StopService {
                     else if (stopId == 5) {
                         plus2 = 0;
                     }
-                    TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route("MAIN_GATE")
-                            .time(dayDown.getDepartureTime().plusMinutes(plus2))
-                            .build();
-                    downs.add(timeDto);
+
+                    if(stopId==1|stopId==2|stopId==3|stopId==4|stopId==5){
+                        TimeResponseDto timeDto = TimeResponseDto.builder()
+                                .route("MAIN_GATE")
+                                .time(dayDown.getDepartureTime().plusMinutes(plus2))
+                                .build();
+                        downs.add(timeDto);
+                    }
                 }
+
+                // 주간 한우리 상행 (stopId: 1,2,3,6)
                 else if (Objects.equals(dayDown.getRoute().toString(), "HANWOORI")){
                     if (stopId == 1) {
                         plus2 = 7;
@@ -238,15 +251,18 @@ public class StopService {
                     else if (stopId == 6) {
                         plus2 = 0;
                     }
-                    TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route("MAIN_GATE")
-                            .time(dayDown.getDepartureTime().plusMinutes(plus2))
-                            .build();
-                    downs.add(timeDto);
+
+                    if(stopId==1|stopId==2|stopId==3|stopId==6){
+                        TimeResponseDto timeDto = TimeResponseDto.builder()
+                                .route("MAIN_GATE")
+                                .time(dayDown.getDepartureTime().plusMinutes(plus2))
+                                .build();
+                        downs.add(timeDto);
+                    }
                 }
             }
 
-            // 평일 야간 상행
+            // 평일 야간 상행 (stopId: 2,6,7,8)
             for (TimeTableNight weekdayNightUp : weekdayNightUps) {
                 int plus3 = 0;
                 if (stopId == 8) {
@@ -261,14 +277,17 @@ public class StopService {
                 else if (stopId == 7){
                     plus3 = 7;
                 }
-                TimeResponseDto timeDto = TimeResponseDto.builder()
-                        .route("E_HOUSE")
-                        .time(weekdayNightUp.getDepartureTime().plusMinutes(plus3))
-                        .build();
-                ups.add(timeDto);
+
+                if(stopId==2|stopId==6|stopId==7|stopId==8){
+                    TimeResponseDto timeDto = TimeResponseDto.builder()
+                            .route("E_HOUSE")
+                            .time(weekdayNightUp.getDepartureTime().plusMinutes(plus3))
+                            .build();
+                    ups.add(timeDto);
+                }
             }
 
-            // 평일 야간 하행
+            // 평일 야간 하행 (stopId: 2,6,7,8)
             for (TimeTableNight weekdayNightDown : weekdayNightDowns) {
                 int plus4 = 0;
                 if (stopId == 8) {
@@ -283,17 +302,20 @@ public class StopService {
                 else if (stopId == 7){
                     plus4 = 0;
                 }
-                TimeResponseDto timeDto = TimeResponseDto.builder()
-                        .route("ART_DESIGN")
-                        .time(weekdayNightDown.getDepartureTime().plusMinutes(plus4))
-                        .build();
-                downs.add(timeDto);
+
+                if(stopId==2|stopId==6|stopId==7|stopId==8){
+                    TimeResponseDto timeDto = TimeResponseDto.builder()
+                            .route("ART_DESIGN")
+                            .time(weekdayNightDown.getDepartureTime().plusMinutes(plus4))
+                            .build();
+                    downs.add(timeDto);
+                }
             }
         }
 
         // 토 : 야간 상하행 전체
         else if (dayOfWeekNumber == 6) {
-            // 토요일 야간 상행
+            // 토요일 야간 상행 (stopId: 2,6,7,8)
             for (TimeTableNight satNightUp : satNightUps) {
                 int plus5 = 0;
                 if (stopId == 8) {
@@ -308,14 +330,17 @@ public class StopService {
                 else if (stopId == 7){
                     plus5 = 7;
                 }
-                TimeResponseDto timeDto = TimeResponseDto.builder()
-                        .route("E_HOUSE")
-                        .time(satNightUp.getDepartureTime().plusMinutes(plus5))
-                        .build();
-                ups.add(timeDto);
+
+                if(stopId==2|stopId==6|stopId==7|stopId==8){
+                    TimeResponseDto timeDto = TimeResponseDto.builder()
+                            .route("E_HOUSE")
+                            .time(satNightUp.getDepartureTime().plusMinutes(plus5))
+                            .build();
+                    ups.add(timeDto);
+                }
             }
 
-            // 토요일 야간 하행
+            // 토요일 야간 하행 (stopId: 2,6,7,8)
             for (TimeTableNight satNightDown : satNightDowns) {
                 int plus6 = 0;
                 if (stopId == 8) {
@@ -330,11 +355,14 @@ public class StopService {
                 else if (stopId == 7){
                     plus6 = 0;
                 }
-                TimeResponseDto timeDto = TimeResponseDto.builder()
-                        .route("ART_DESIGN")
-                        .time(satNightDown.getDepartureTime().plusMinutes(plus6))
-                        .build();
-                downs.add(timeDto);
+
+                if(stopId==2|stopId==6|stopId==7|stopId==8){
+                    TimeResponseDto timeDto = TimeResponseDto.builder()
+                            .route("ART_DESIGN")
+                            .time(satNightDown.getDepartureTime().plusMinutes(plus6))
+                            .build();
+                    downs.add(timeDto);
+                }
             }
         }
 
