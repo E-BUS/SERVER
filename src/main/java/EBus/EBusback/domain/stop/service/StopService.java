@@ -1,10 +1,7 @@
 package EBus.EBusback.domain.stop.service;
 
 import EBus.EBusback.domain.member.entity.Member;
-import EBus.EBusback.domain.stop.dto.StopPinReqDto;
-import EBus.EBusback.domain.stop.dto.StopPinResDto;
-import EBus.EBusback.domain.stop.dto.TimeResponseDto;
-import EBus.EBusback.domain.stop.dto.WholeTimetableResDto;
+import EBus.EBusback.domain.stop.dto.*;
 import EBus.EBusback.domain.stop.entity.BusStop;
 import EBus.EBusback.domain.stop.entity.PinStop;
 import EBus.EBusback.domain.stop.repository.BusStopRepository;
@@ -14,6 +11,8 @@ import EBus.EBusback.domain.table.entity.TimeTableNight;
 import EBus.EBusback.domain.table.repository.TimeTableDayRepository;
 import EBus.EBusback.domain.table.repository.TimeTableNightRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -76,6 +75,51 @@ public class StopService {
 
     // 특정 정류장 전체 시간표 조회
     public WholeTimetableResDto getWholeTimetable(Integer stopId) {
+        StopTimetable stopTimetable = getStopTimetable(stopId);
+        List<TimeResponseDto> ups = stopTimetable.getUps();
+        List<TimeResponseDto> downs = stopTimetable.getDowns();
+        int i = stopTimetable.getI();
+
+        // 해당 정류장에서 현재 시각과 출발 시간이 가장 가까운 시간
+        TimeResponseDto closestUp = new TimeResponseDto();
+        TimeResponseDto closestDown = new TimeResponseDto();
+        closestUp = ups.get(i);
+        closestDown = downs.get(i);
+
+        return new WholeTimetableResDto(ups, downs, closestUp, closestDown);
+    }
+
+    // 핀한 정류장 일부 시간표 조회
+    public PinnedStopTimeResDto getPartTimetable(Integer stopId) {
+        StopTimetable stopTimetable = getStopTimetable(stopId);
+        List<TimeResponseDto> ups = stopTimetable.getUps();
+        List<TimeResponseDto> downs = stopTimetable.getDowns();
+        int i = stopTimetable.getI();
+
+        List<TimeResponseDto> closeUps = new ArrayList<>();
+        List<TimeResponseDto> closeDowns = new ArrayList<>();
+        for (int j=i; j<i+3; j++){
+            closeUps.add(ups.get(j));
+            closeDowns.add(downs.get(j));
+        }
+        return new PinnedStopTimeResDto(closeUps, closeDowns);
+    }
+
+    @Getter
+    public static class StopTimetable {
+        private List<TimeResponseDto> ups;
+        private List<TimeResponseDto> downs;
+        private int i;
+
+        @Builder
+        public StopTimetable (List<TimeResponseDto> ups, List<TimeResponseDto> downs, int i){
+            this.ups = ups;
+            this.downs = downs;
+            this.i = i;
+        }
+    }
+
+    public StopTimetable getStopTimetable(Integer stopId){
         // 비어 있는 상행 리스트
         List<TimeResponseDto> ups = new ArrayList<>();
         // 비어 있는 하행 리스트
@@ -170,7 +214,7 @@ public class StopService {
                         plus2 = 0;
                     }
                     TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route(dayDown.getRoute().toString())
+                            .route("MAIN_GATE")
                             .time(dayDown.getDepartureTime().plusMinutes(plus2))
                             .build();
                     downs.add(timeDto);
@@ -189,7 +233,7 @@ public class StopService {
                         plus2 = 0;
                     }
                     TimeResponseDto timeDto = TimeResponseDto.builder()
-                            .route(dayDown.getRoute().toString())
+                            .route("MAIN_GATE")
                             .time(dayDown.getDepartureTime().plusMinutes(plus2))
                             .build();
                     downs.add(timeDto);
@@ -297,13 +341,6 @@ public class StopService {
         while (ups.get(i).getTime().isBefore(now) && i < ups.size()) {
             i++;
         }
-
-        // 해당 정류장에서 현재 시각과 출발 시간이 가장 가까운 시간
-        TimeResponseDto closestUp = new TimeResponseDto();
-        TimeResponseDto closestDown = new TimeResponseDto();
-        closestUp = ups.get(i);
-        closestDown = downs.get(i);
-
-        return new WholeTimetableResDto(ups, downs, closestUp, closestDown);
+        return new StopTimetable(ups, downs, i);
     }
 }

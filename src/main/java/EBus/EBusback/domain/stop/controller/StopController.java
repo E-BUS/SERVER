@@ -1,6 +1,7 @@
 package EBus.EBusback.domain.stop.controller;
 
 import EBus.EBusback.domain.member.entity.Member;
+import EBus.EBusback.domain.stop.dto.PinnedStopTimeResDto;
 import EBus.EBusback.domain.stop.dto.StopPinReqDto;
 import EBus.EBusback.domain.stop.dto.StopPinResDto;
 import EBus.EBusback.domain.stop.dto.WholeTimetableResDto;
@@ -9,8 +10,6 @@ import EBus.EBusback.global.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +36,12 @@ public class StopController {
     @ResponseStatus(HttpStatus.OK)
     public WholeTimetableResDto getWholeTimetable(@PathVariable("stop_id") Integer stopId){
         return stopService.getWholeTimetable(stopId);
+    }
+
+    // 핀한 정류장 일부 시간표 조회
+    @GetMapping("/{stop_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PinnedStopTimeResDto getPartTimetable(@PathVariable("stop_id") Integer stopId){
+        return stopService.getPartTimetable(stopId);
     }
 }
