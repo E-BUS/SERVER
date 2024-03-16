@@ -7,9 +7,11 @@ import EBus.EBusback.domain.stop.dto.StopPinResDto;
 import EBus.EBusback.domain.stop.dto.WholeTimetableResDto;
 import EBus.EBusback.domain.stop.service.StopService;
 import EBus.EBusback.global.SecurityUtil;
+import EBus.EBusback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +23,8 @@ public class StopController {
     @PostMapping("/pin")
     public StopPinResDto createOrRemovePin(@RequestBody StopPinReqDto stopPinReqDto){
         Member member = SecurityUtil.getCurrentUser();
+        if (member == null)
+            throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
         return stopService.createOrRemovePin(member, stopPinReqDto);
     }
 
@@ -28,6 +32,8 @@ public class StopController {
     @GetMapping("/pin")
     public StopPinResDto getPinnedStopList(){
         Member member = SecurityUtil.getCurrentUser();
+        if (member == null)
+            throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
         return stopService.getPinnedStopList(member);
     }
 

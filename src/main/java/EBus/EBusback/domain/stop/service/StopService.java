@@ -10,6 +10,8 @@ import EBus.EBusback.domain.table.entity.TimeTableDay;
 import EBus.EBusback.domain.table.entity.TimeTableNight;
 import EBus.EBusback.domain.table.repository.TimeTableDayRepository;
 import EBus.EBusback.domain.table.repository.TimeTableNightRepository;
+import EBus.EBusback.global.SecurityUtil;
+import EBus.EBusback.global.exception.ErrorCode;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -91,6 +94,9 @@ public class StopService {
 
     // 핀한 정류장 일부 시간표 조회
     public PinnedStopTimeResDto getPartTimetable(Integer stopId) {
+        Member member = SecurityUtil.getCurrentUser();
+        if (member == null)
+            throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
         StopTimetable stopTimetable = getStopTimetable(stopId);
         List<TimeResponseDto> ups = stopTimetable.getUps();
         List<TimeResponseDto> downs = stopTimetable.getDowns();
