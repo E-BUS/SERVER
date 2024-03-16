@@ -27,6 +27,7 @@ import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.global.SecurityUtil;
 import EBus.EBusback.global.exception.ErrorCode;
 import EBus.EBusback.global.service.S3Uploader;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,7 +41,7 @@ public class LostItemController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ItemPostResDto createLostItemPost(@RequestPart(value = "image") MultipartFile image,
-		@RequestPart(value = "dto") ItemPostReqDto itemPostReqDto) throws IOException {
+		@RequestPart(value = "dto") @Valid ItemPostReqDto itemPostReqDto) throws IOException {
 		Member writer = SecurityUtil.getCurrentUser();
 		if (writer == null)
 			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
