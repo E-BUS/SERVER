@@ -30,6 +30,9 @@ public class PostService {
 	private final PostRepository postRepository;
 	private final HeartService heartService;
 
+	// 게시글 등록
+	// isSuggestion: true -> 건의해요 등록
+	// isSuggestion: false -> 고마워요 등록
 	public PostCreateResponseDto createPost(PostRequestDto requestDto, Boolean isSuggestion) {
 		Member writer = SecurityUtil.getCurrentUser();
 		if (writer == null)
@@ -45,6 +48,7 @@ public class PostService {
 		return new PostCreateResponseDto(post);
 	}
 
+	// postId를 id로 가지는 상세 조회
 	public PostDetailResponseDto findPost(Long postId) {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new ResponseStatusException(
@@ -54,6 +58,9 @@ public class PostService {
 			findPostMemberInfo(post, member));
 	}
 
+	// 사용자와 관련된 게시글 정보를 가져오는 메서드
+	// hasHeart: 사용자가 이 글에 좋아요를 눌렀는지 여부
+	// isWriter: 사용자가 이 글의 작성자인지 여부
 	public PostMemberDto findPostMemberInfo(Post post, Member member) {
 		Boolean hasHeart = false;
 		Boolean isWriter = false;
@@ -65,6 +72,9 @@ public class PostService {
 		return new PostMemberDto(hasHeart, isWriter);
 	}
 
+	// 게시글 리스트 조회
+	// isSuggestion: true -> 건의해요 리스트 조회
+	// isSuggestion: false -> 고마워요 리스트 조회
 	public List<PostOutlineResponseDto> findPostList(Boolean isSuggestion) {
 		List<Post> postList = postRepository.findAllByIsSuggestion(isSuggestion);
 		return postList.stream()
@@ -72,6 +82,7 @@ public class PostService {
 			.collect(Collectors.toList());
 	}
 
+	// postId를 id로 가지는 게시글 삭제
 	public void removePost(Long postId) {
 		Member member = SecurityUtil.getCurrentUser();
 		if (member == null)
