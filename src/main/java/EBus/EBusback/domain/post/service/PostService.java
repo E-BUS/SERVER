@@ -81,7 +81,7 @@ public class PostService {
 				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));
 
 		if (!post.getWriter().getMemberId().equals(member.getMemberId()))
-			throw new RuntimeException("작성자만 삭제할 수 있습니다.");
+			throw new ResponseStatusException(ErrorCode.NO_WRITER.getStatus(), ErrorCode.NO_WRITER.getMessage());
 		postRepository.delete(post);
 	}
 }

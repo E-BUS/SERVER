@@ -18,7 +18,8 @@ public enum ErrorCode {
 	NON_LOGIN(HttpStatus.UNAUTHORIZED, "로그인 후 이용 가능합니다."),
 
 	// Member
-	NO_ADMIN(HttpStatus.FORBIDDEN, "관리자만 접근 가능합니다.");
+	NO_ADMIN(HttpStatus.FORBIDDEN, "관리자만 접근 가능합니다."),
+	NO_WRITER(HttpStatus.FORBIDDEN, "작성자만 접근 가능합니다.");
 
 	private final HttpStatus status;
 	private final String message;
