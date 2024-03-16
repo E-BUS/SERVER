@@ -24,7 +24,7 @@ public class HeartService {
 	public String createOrRemoveHeart(Long postId) {
 		Member member = SecurityUtil.getCurrentUser();
 		if (member == null)
-			throw new RuntimeException("사용자를 찾을 수 없습니다.");
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new ResponseStatusException(

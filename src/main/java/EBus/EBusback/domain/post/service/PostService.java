@@ -32,6 +32,8 @@ public class PostService {
 
 	public PostCreateResponseDto createPost(PostRequestDto requestDto, Boolean isSuggestion) {
 		Member writer = SecurityUtil.getCurrentUser();
+		if (writer == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Post post = postRepository.save(
 			Post.builder()
 				.title(requestDto.getTitle())
@@ -72,6 +74,8 @@ public class PostService {
 
 	public void removePost(Long postId) {
 		Member member = SecurityUtil.getCurrentUser();
+		if (member == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new ResponseStatusException(
 				ErrorCode.NO_POST_EXIST.getStatus(), ErrorCode.NO_POST_EXIST.getMessage()));

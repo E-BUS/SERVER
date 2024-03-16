@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.domain.member.entity.Role;
@@ -13,6 +14,7 @@ import EBus.EBusback.domain.notice.entity.Notice;
 import EBus.EBusback.domain.notice.repository.NoticeRepository;
 import EBus.EBusback.domain.post.dto.PostRequestDto;
 import EBus.EBusback.global.SecurityUtil;
+import EBus.EBusback.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,6 +26,8 @@ public class NoticeService {
 
 	public NoticeResponseDto createNotice(PostRequestDto requestDto) {
 		Member member = SecurityUtil.getCurrentUser();
+		if (member == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		if (!member.getRole().equals(Role.ADMIN))
 			throw new RuntimeException("공지사항은 관리자만 작성 가능합니다.");
 		return new NoticeResponseDto(noticeRepository.save(
@@ -44,6 +48,8 @@ public class NoticeService {
 
 	public void removeNotice(Long noticeId) {
 		Member member = SecurityUtil.getCurrentUser();
+		if (member == null)
+			throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
 		Notice notice = noticeRepository.findById(noticeId)
 			.orElseThrow(() -> new RuntimeException("공지사항을 찾을 수 없습니다."));
 		if (!member.getRole().equals(Role.ADMIN))
