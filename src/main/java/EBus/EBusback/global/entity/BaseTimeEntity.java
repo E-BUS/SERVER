@@ -10,6 +10,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 
+// 엔티티의 createdDate 컬럼을 자동으로 생성하기 위한 클래스
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

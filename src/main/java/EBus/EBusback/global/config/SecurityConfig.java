@@ -33,6 +33,7 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
+	// cors 설정
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
@@ -45,6 +46,7 @@ public class SecurityConfig {
 		return source;
 	}
 
+	// spring security 설정
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable);
