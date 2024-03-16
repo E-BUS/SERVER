@@ -26,4 +26,8 @@ public class Member {
 		this.memberId = memberId;
 		this.role = Role.USER;
 	}
+
+	public void changeRole() {
+		this.role = Role.ADMIN;
+	}
 }
