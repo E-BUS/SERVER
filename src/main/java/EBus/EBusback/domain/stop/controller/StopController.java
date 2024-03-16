@@ -3,9 +3,11 @@ package EBus.EBusback.domain.stop.controller;
 import EBus.EBusback.domain.member.entity.Member;
 import EBus.EBusback.domain.stop.dto.StopPinReqDto;
 import EBus.EBusback.domain.stop.dto.StopPinResDto;
+import EBus.EBusback.domain.stop.dto.WholeTimetableResDto;
 import EBus.EBusback.domain.stop.service.StopService;
 import EBus.EBusback.global.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,5 +30,12 @@ public class StopController {
     public StopPinResDto getPinnedStopList(){
         Member member = SecurityUtil.getCurrentUser();
         return stopService.getPinnedStopList(member);
+    }
+
+    // 특정 정류장 전체 시간표 조회
+    @GetMapping("/{stop_id}/all")
+    @ResponseStatus(HttpStatus.OK)
+    public WholeTimetableResDto getWholeTimetable(@PathVariable("stop_id") Integer stopId){
+        return stopService.getWholeTimetable(stopId);
     }
 }
