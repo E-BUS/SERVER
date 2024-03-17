@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -85,5 +86,12 @@ public class LostItemService {
 		if (!lostItem.getWriter().getMemberId().equals(writer.getMemberId()))
 			throw new ResponseStatusException(ErrorCode.NO_WRITER.getStatus(), ErrorCode.NO_WRITER.getMessage());
 		lostItemRepository.delete(lostItem);
+	}
+
+	// 분실물 글 상세 조회
+	public ItemPostResDto getLostItemDetail(Long itemId) {
+		LostItem lostItem = lostItemRepository.findById(itemId)
+				.orElseThrow(() -> new EntityNotFoundException("해당 itmeId의 글이 존재하지 않습니다."));
+		return new ItemPostResDto(lostItem);
 	}
 }
