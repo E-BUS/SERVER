@@ -36,7 +36,9 @@ public class SecurityConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://52.78.185.4:8080"));
+		configuration.setAllowedOrigins(Arrays.asList(
+			"http://localhost:3000", "http://52.78.185.4:8080", "http://api.ebus.kro.kr", "https://api.ebus.kro.kr",
+			"https://e-bus.vercel.app/"));
 		configuration.setAllowedMethods(List.of("*"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setAllowCredentials(true);
