@@ -86,4 +86,13 @@ public class LostItemController {
 		lostItemService.deleteLostItem(writer, itemId);
 		return "글이 삭제되었습니다.";
 	}
+
+	@Operation(summary = "핀한 정류장 리스트 조회")
+	@ApiResponse(responseCode = "200", description = "조회 성공")
+	// 분실물 글 상세 조회
+	@GetMapping("/{item_id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ItemPostResDto getLostItemDetail (@PathVariable("item_id") Long itemId){
+		return lostItemService.getLostItemDetail(itemId);
+	}
 }
