@@ -74,7 +74,7 @@ public class MainPageService {
             }
             else{
                 for (int i=0; i<3; i++) {
-                    suggestionList.add(new MainPostResDto(allAppreciation.get(i)));
+                    appreciationList.add(new MainPostResDto(allAppreciation.get(i)));
                 }
             }
         }
