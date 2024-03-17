@@ -159,11 +159,14 @@ public class StopService {
         List<TimeResponseDto> downs = new ArrayList<>();
 
         // 현재 요일 구하기 (월:1, ..., 일:7)
+        /*
         LocalDate today = LocalDate.now();
         DayOfWeek dayOfWeek = today.getDayOfWeek();
         int dayOfWeekNumber = dayOfWeek.getValue();
+        */
+        int dayOfWeekNumber = 1;
 
-                // 주간 상행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
+        // 주간 상행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
         List<TimeTableDay> dayUps = timeTableDayRepository.findByIsUpboundOrderByDepartureTimeAsc(Boolean.TRUE);
 
         // 주간 하행. 연협행, 한우리행 섞여있고, 시간순으로 정렬해서 조회
