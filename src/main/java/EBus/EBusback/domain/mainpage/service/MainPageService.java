@@ -49,7 +49,7 @@ public class MainPageService {
             }
         }
 
-        List<Post> allSuggestion = postRepository.findAllByIsSuggestionOrderByCreatedDate(true);
+        List<Post> allSuggestion = postRepository.findAllByIsSuggestionOrderByCreatedDateDesc(true);
         List<MainPostResDto> suggestionList = new ArrayList<>();
         if (!(allSuggestion.isEmpty())){
             if (allSuggestion.size()<3){
@@ -64,7 +64,7 @@ public class MainPageService {
             }
         }
 
-        List<Post> allAppreciation = postRepository.findAllByIsSuggestionOrderByCreatedDate(false);
+        List<Post> allAppreciation = postRepository.findAllByIsSuggestionOrderByCreatedDateDesc(false);
         List<MainPostResDto> appreciationList = new ArrayList<>();
         if (!(allAppreciation.isEmpty())){
             if(allAppreciation.size()<3){
