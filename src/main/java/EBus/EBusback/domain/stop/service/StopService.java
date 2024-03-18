@@ -111,24 +111,60 @@ public class StopService {
         if (member == null)
             throw new ResponseStatusException(ErrorCode.NON_LOGIN.getStatus(), ErrorCode.NON_LOGIN.getMessage());
         StopTimetable stopTimetable = getStopTimetable(stopId);
+        int dayOfWeekNumber = stopTimetable.getDayOfWeekNumber();
         List<TimeResponseDto> ups = stopTimetable.getUps();
         List<TimeResponseDto> downs = stopTimetable.getDowns();
         int m = stopTimetable.getM();
         int n = stopTimetable.getN();
+        LocalTime now = LocalTime.now();
 
         List<TimeResponseDto> closeUps = new ArrayList<>();
         List<TimeResponseDto> closeDowns = new ArrayList<>();
 
-        // m번째 index, m+1, m+2 가 필요한 거.
-        for (int p=m; p<m+3; p++){
-            if (ups.size()>p){
-                closeUps.add(ups.get(p));
+        /*
+        1: 정문 MAIN_GATE
+        2: 포스코관 POSCO
+        3: 공대삼거리 ENGINEERING
+        4: 기숙사삼거리 DORMITORY
+        5: 연구협력관 RCB
+        6: 한우리집 HANWOORI
+        7: 이하우스 E_HOUSE
+        8: 조형대삼거리 ART_DESIGN
+         */
+        // m번째 index, m+1, m+2 가 필요
+        // stopId가 5 또는 7인 경우 closeUps가 비어 있도록 함
+        // stopId가 6인 경우 주간에만 closeUps가 비어 있도록 함
+        if (stopId == 5 | stopId == 7) {
+        }
+        else if (stopId == 6){
+            if ((dayOfWeekNumber<6)&&(now.isBefore(LocalTime.of( 21, 10, 0)))){
+            }
+            else if ((dayOfWeekNumber==6)&&(now.isBefore(LocalTime.of( 19, 10, 0)))){
+            }
+            else {
+                for (int p = m; p < m + 3; p++) {
+                    if (ups.size() > p) {
+                        closeUps.add(ups.get(p));
+                    }
+                }
+            }
+        }
+        else {
+            for (int p = m; p < m + 3; p++) {
+                if (ups.size() > p) {
+                    closeUps.add(ups.get(p));
+                }
             }
         }
 
-        for (int q=n; q<n+3; q++){
-            if (downs.size()>q){
-                closeDowns.add(downs.get(q));
+        // stopId가 1 또는 8인 경우 closeDowns가 비어 있도록 함
+        if (stopId == 1 | stopId == 8) {
+            }
+        else {
+            for (int q = n; q < n + 3; q++) {
+                if (downs.size() > q) {
+                    closeDowns.add(downs.get(q));
+                }
             }
         }
         return new PinnedStopTimeResDto(closeUps, closeDowns);
@@ -137,13 +173,15 @@ public class StopService {
     // 시간표 데이터 전달 dto
     @Getter
     public static class StopTimetable {
+        private int dayOfWeekNumber;
         private List<TimeResponseDto> ups;
         private List<TimeResponseDto> downs;
         private int m;
         private int n;
 
         @Builder
-        public StopTimetable (List<TimeResponseDto> ups, List<TimeResponseDto> downs, int m, int n){
+        public StopTimetable (int dayOfWeekNumber, List<TimeResponseDto> ups, List<TimeResponseDto> downs, int m, int n){
+            this.dayOfWeekNumber = dayOfWeekNumber;
             this.ups = ups;
             this.downs = downs;
             this.m = m;
@@ -413,6 +451,6 @@ public class StopService {
             }
         }
 
-        return new StopTimetable(ups, downs, m, n);
+        return new StopTimetable(dayOfWeekNumber, ups, downs, m, n);
     }
 }
