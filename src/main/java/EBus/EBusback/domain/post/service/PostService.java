@@ -76,7 +76,7 @@ public class PostService {
 	// isSuggestion: true -> 건의해요 리스트 조회
 	// isSuggestion: false -> 고마워요 리스트 조회
 	public List<PostOutlineResponseDto> findPostList(Boolean isSuggestion) {
-		List<Post> postList = postRepository.findAllByIsSuggestion(isSuggestion);
+		List<Post> postList = postRepository.findAllByIsSuggestionOrderByCreatedDateDesc(isSuggestion);
 		return postList.stream()
 			.map(post -> new PostOutlineResponseDto(post, heartService.getHeartCount(post)))
 			.collect(Collectors.toList());
