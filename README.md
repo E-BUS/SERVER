@@ -19,7 +19,7 @@
 ## 💚 팀원 소개 
 | BE | BE | FE | FE | DESIGN |
 |:---:|:---:|:---:|:---:|:---:|
-|<img width="150" src="https://avatars.githubusercontent.com/u/89539031?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/121334671?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/79829662?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/102040717?v=4" />|<img width="150" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-19/118651266_1254391924905149_8436982021047136710_n.jpg?stp=dst-jpg_s150x150&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=105&_nc_ohc=R2mLl7S8m68AX83RO7S&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfAVTJm12Y0oo1sMl-M6b8npAjoEBN9_stLJekVFmYytaQ&oe=65FE1411&_nc_sid=8b3546">|
+|<img width="150" src="https://avatars.githubusercontent.com/u/89539031?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/121334671?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/79829662?v=4" />|<img width="150" src="https://avatars.githubusercontent.com/u/102040717?v=4" />|<img width="150" src=https://github.com/E-BUS/SERVER/assets/121334671/97faacd9-5ba2-406b-a78f-be137d073118>|
 | 차소연 | 김예지 | 송지민 | 이서진 | 김수연 |
 | [Soyeon-Cha](https://github.com/Soyeon-Cha) | [xyzwv](https://github.com/xyzwv) | [songing01](https://github.com/songing01) | [529539](https://github.com/529539) | [s_yeon.723](https://www.instagram.com/s_yeon.723)
 
