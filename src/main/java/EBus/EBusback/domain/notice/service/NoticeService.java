@@ -46,8 +46,8 @@ public class NoticeService {
 
 	// 공지사항 전체 조회
 	public List<NoticeResponseDto> findNoticeList() {
-		return noticeRepository.findAll().stream()
-			.map(NoticeResponseDto::new).collect(Collectors.toList());
+		List<Notice> notices = noticeRepository.findAllByOrderByCreatedDateDesc();
+		return notices.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
 	}
 
 	// noticeId를 id로 가지는 공지사항 삭제
