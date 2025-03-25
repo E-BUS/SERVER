@@ -1,6 +1,6 @@
 # E-BUS
 이화여자대학교 내 셔틀버스 이용 편의성을 증진하기 위한 셔틀버스 운행정보 통합 웹서비스
-> **2024 EWAH-THON** 출품작<br>
+> **2024 EWHA-THON** 출품작<br>
 > [기획서](https://github.com/Ewhathon/2024ewhathon/blob/%EA%B9%80%EB%91%98%EC%9D%B4%EC%86%A1%EC%B0%A8/papers/%EA%B9%80%EB%91%98%EC%9D%B4%EC%86%A1%EC%B0%A8_Ewhathon%EA%B8%B0%ED%9A%8D%EC%84%9C.pdf)<br>
 > [발표 자료](https://github.com/Ewhathon/2024ewhathon/blob/%EA%B9%80%EB%91%98%EC%9D%B4%EC%86%A1%EC%B0%A8/papers/%EA%B9%80%EB%91%98%EC%9D%B4%EC%86%A1%EC%B0%A8_%EC%9D%B4%ED%99%94%ED%86%A4_%EB%B0%9C%ED%91%9C%EC%9E%90%EB%A3%8C.pdf)
 
